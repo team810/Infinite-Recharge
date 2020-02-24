@@ -7,12 +7,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.ControlPanel;
 
 public class RunCP extends CommandBase {
   
   ControlPanel cp;
+  Robot r;
 
   public RunCP(ControlPanel cp) {
     this.cp = cp;
@@ -26,13 +29,16 @@ public class RunCP extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    cp.control_motor.set(.5);
+    
+  cp.control_motor.set(.50);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    cp.control_motor.set(0);
   }
+
 
   // Returns true when the command should end.
   @Override

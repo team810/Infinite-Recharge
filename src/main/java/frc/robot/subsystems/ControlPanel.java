@@ -35,6 +35,10 @@ public class ControlPanel extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void stop(){
+    control_motor.set(0);
+  }
+
   public String getCPPosition(){
     if(control_solenoid.get() == Value.kForward){
       return "Up";
@@ -42,5 +46,9 @@ public class ControlPanel extends SubsystemBase {
     else{
       return "Down";
     }
+  }
+
+  public void init(){
+    control_solenoid.set(Value.kReverse);
   }
 }

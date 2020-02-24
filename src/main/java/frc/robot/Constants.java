@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -39,7 +41,7 @@ public final class Constants {
     public static final int ARMSOL_BTN = 10;
     public static final int ARMMOTOR_BTN = 9;
     public static final int WINCH_BTN = 10;
-    public static final int SHOOTER_SOL_BTN = 11;
+    public static final int CP_BTN = 11;
     public static final int DRIVE_MODE_BTN = 6;
     public static final int FEED_REVERSE_BTN = 12;
 
@@ -81,15 +83,22 @@ public final class Constants {
 
     //LIMELIGHT
     
-    public static final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    public static final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-bulls");
         
     public static final NetworkTableEntry tx = table.getEntry("tx");
     public static final NetworkTableEntry ty = table.getEntry("ty");
     public static final NetworkTableEntry ta = table.getEntry("ta");
     public static final NetworkTableEntry tv = table.getEntry("tv");
+    
 
     public static final NetworkTableEntry ledMode = table.getEntry("ledMode");
     public static final NetworkTableEntry camMode = table.getEntry("camMode");
     public static final NetworkTableEntry pipeline = table.getEntry("pipeline");
     public static final NetworkTableEntry stream = table.getEntry("stream");
+    
+    public static final double GEAR_RATIO = 0;
+    public static final double WHEEL_DIAMETER = 0;
+    
+    public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(Units.inchesToMeters(27));
 }

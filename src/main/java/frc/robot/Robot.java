@@ -14,7 +14,6 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +43,8 @@ public class Robot extends TimedRobot {
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   public String colorString;
 
+  public String gameData = DriverStation.getInstance().getGameSpecificMessage();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -52,6 +53,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     m_robotContainer = new RobotContainer();
+
+    m_robotContainer.m_limelight.lightOff();
+
+    m_robotContainer.m_cp.init();
+    m_robotContainer.m_climb.init();
+    m_robotContainer.m_intake.init();
+
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
@@ -106,6 +114,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
 
+    SmartDashboard.putNumber("RPM", m_robotContainer.m_shoot.shooter.getEncoder().getVelocity());
 
     if(DriverStation.getInstance().getMatchTime() >= 30){
       m_robotContainer.m_climb.switch_climb.set(Value.kForward);
@@ -116,6 +125,8 @@ public class Robot extends TimedRobot {
       m_robotContainer.m_intake.intakeSOL.set(Value.kReverse);
     }
 
+    
+
     if(m_robotContainer.m_climb.switch_climb.get() == Value.kReverse){
       m_robotContainer.m_cp.control_solenoid.set(Value.kForward);
     }
@@ -124,8 +135,6 @@ public class Robot extends TimedRobot {
       m_robotContainer.m_shoot.shooterSOL.set(Value.kReverse);
     }
 
-    SmartDashboard.putNumber("left", m_robotContainer.m_drive.getLeftRotation());
-    SmartDashboard.putNumber("right", m_robotContainer.m_drive.getRightRotation());
     SmartDashboard.putString("CP Position", m_robotContainer.m_cp.getCPPosition());
     SmartDashboard.putString("Shooter Position", m_robotContainer.m_shoot.getShooterPosition());
     /**
@@ -139,9 +148,23 @@ public class Robot extends TimedRobot {
     }
     if(m_robotContainer.m_drive.front_R.getIdleMode() == IdleMode.kBrake){
       SmartDashboard.putBoolean("Drive Mode", true);
-    }
-    SmartDashboard.putNumber("X", Constants.tx.getDouble(0.0));
-    SmartDashboard.putNumber("Distance", m_robotContainer.m_intake.getDistance() / 1024);
+    } 
+
+    Constants.ledMode.setNumber(0);
+
+    //if(Constants.tv.getDouble(0.0) == 0.0){
+      //m_robotContainer.m_shoot.shooterSOL.set(Value.kForward);
+    //}
+    //if(Constants.tv.getDouble(0.0) == 1.0){
+      //m_robotContainer.m_shoot.shooterSOL.set(Value.kReverse);
+    //}
+
+    SmartDashboard.putNumber("Left", m_robotContainer.m_drive.getLeftDistance());
+    SmartDashboard.putNumber("Right", m_robotContainer.m_drive.getRightDistance());
+  }
+
+  public String getColorData(){
+    return gameData;
   }
 
   public String getColor(){

@@ -5,35 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.DriveTrain;
 
-public class CamMode extends CommandBase {
+public class DriveBack extends CommandBase {
   
-  Limelight l;
+  DriveTrain d;
+  double leftEnc, rightEnc;
 
-  public CamMode(Limelight l) {
-    this.l = l;
-    addRequirements(l);
+  public DriveBack(DriveTrain d) {
+    this.d = d;
+    addRequirements(d);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    d.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      l.stream.setNumber(2);
+    d.arcadeDrive(-.5, 0);
+    if(d.backLEncoder.getPosition() < -0.008304){
+      d.arcadeDrive(0, 0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    l.stream.setNumber(0);
   }
 
   // Returns true when the command should end.

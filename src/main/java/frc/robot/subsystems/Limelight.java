@@ -64,7 +64,6 @@ public class Limelight extends SubsystemBase {
    */
   public boolean noValidTarget() {
     if (validTarget == 0) {
-      System.out.println("ERROR: Vision Target was lost");
       SmartDashboard.putBoolean("Target", false);
       return true; 
 
@@ -72,6 +71,15 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putBoolean("Target", true);
       return false;
       
+    }
+  }
+
+  public boolean isValidTarget(){
+    if(Constants.tv.getDouble(0.0) == 1){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 }
