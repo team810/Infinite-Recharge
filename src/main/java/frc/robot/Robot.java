@@ -123,18 +123,9 @@ public class Robot extends TimedRobot {
     
     if(m_robotContainer.m_climb.switch_climb.get() == Value.kReverse){
       m_robotContainer.m_intake.intakeSOL.set(Value.kReverse);
-    }
-
-    
-
-    if(m_robotContainer.m_climb.switch_climb.get() == Value.kReverse){
       m_robotContainer.m_cp.control_solenoid.set(Value.kForward);
-    }
-
-    if(m_robotContainer.m_climb.switch_climb.get() == Value.kReverse){
       m_robotContainer.m_shoot.shooterSOL.set(Value.kReverse);
     }
-
     SmartDashboard.putString("CP Position", m_robotContainer.m_cp.getCPPosition());
     SmartDashboard.putString("Shooter Position", m_robotContainer.m_shoot.getShooterPosition());
     /**
@@ -145,11 +136,38 @@ public class Robot extends TimedRobot {
 
     if(m_robotContainer.m_drive.front_R.getIdleMode() == IdleMode.kCoast){
       SmartDashboard.putBoolean("Drive Mode", false);
-    }
-    if(m_robotContainer.m_drive.front_R.getIdleMode() == IdleMode.kBrake){
+    }else{
       SmartDashboard.putBoolean("Drive Mode", true);
     } 
 
+    String gameData;
+gameData = DriverStation.getInstance().getGameSpecificMessage();
+if(gameData.length() > 0)
+{
+  switch (gameData.charAt(0))
+  {
+    case 'B' :
+      if(colorString == "Blue"){
+      m_robotContainer.m_cp.control_motor.stopMotor();
+      }
+      break;
+    case 'G' :
+    if(colorString == "Green"){
+    m_robotContainer.m_cp.control_motor.stopMotor();
+    }
+      break;
+    case 'R' :
+    if(colorString == "Red"){
+    m_robotContainer.m_cp.control_motor.stopMotor();
+    }
+      break;
+    case 'Y' :
+    if(colorString == "Yellow"){
+    m_robotContainer.m_cp.control_motor.stopMotor();
+    }
+      break;
+  }
+}
     Constants.ledMode.setNumber(0);
 
     //if(Constants.tv.getDouble(0.0) == 0.0){

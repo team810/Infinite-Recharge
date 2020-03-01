@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -99,6 +100,16 @@ public final class Constants {
     public static final double GEAR_RATIO = 0;
     public static final double WHEEL_DIAMETER = 0;
     
-    public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(Units.inchesToMeters(27));
+    //AUTONOMOUS
+    public static final double ksVolts = 0.22;
+    public static final double kvVoltSecondsPerMeter = 1.98;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+
+    public static final double kPDriveVel = 8.5;
+
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
 }

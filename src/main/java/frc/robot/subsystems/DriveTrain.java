@@ -43,6 +43,8 @@ public class DriveTrain extends SubsystemBase {
   public double kD = 0.0023;
   public double set = 20;
 
+  public double targetDeg = 20;
+
   public CANEncoder backLEncoder = back_L.getEncoder();
   public CANEncoder backREncoder = back_R.getEncoder();
   public CANEncoder frontLEncoder = front_L.getEncoder();
@@ -53,7 +55,7 @@ public class DriveTrain extends SubsystemBase {
   double encoderConstant = (1 / 8.68) * 0.155 * Math.PI; 
 
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
-  DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  //DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, 0.243);
 
@@ -85,7 +87,7 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    pose = odometry.update(getHeading(), getSpeeds(true), getSpeeds(false));
+    //pose = odometry.update(getHeading(), getSpeeds(true), getSpeeds(false));
     SmartDashboard.putNumber("Navx Heading", getNavxAngle());
   }
 
@@ -111,9 +113,9 @@ public class DriveTrain extends SubsystemBase {
     drive.arcadeDrive(speed, rot);
   }
 
-  public Rotation2d getHeading(){
-    return Rotation2d.fromDegrees(-navx.getAngle());
-  }
+  //public Rotation2d getHeading(){
+  //  return Rotation2d.fromDegrees(-navx.getAngle());
+  //}
 
   public String driveMode(){
     if(front_L.getIdleMode() == IdleMode.kBrake){
@@ -165,6 +167,10 @@ public class DriveTrain extends SubsystemBase {
 
   public PIDController getLeftPIDController(){
     return leftPidController;
+  }
+
+  public double getHeading(){
+    return Math.IEEEremainder(navx.getAngle(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
   }
 
   public PIDController getRightPIDController(){
