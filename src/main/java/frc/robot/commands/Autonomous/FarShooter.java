@@ -30,9 +30,9 @@ public class FarShooter extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(new SetIdleMode(d, true), 
           new SetSolenoid(s.shooterSOL, false),
-          new RevShooter(s, 4600),
+          new RevShooter(s, 5100),
           new WaitCommand(.4), 
-          new RunShooter(s, i, 1), 
+          new RunShooter(s, i, .85), 
           new SetIdleMode(d, false),
           new WaitCommand(.2));
   }

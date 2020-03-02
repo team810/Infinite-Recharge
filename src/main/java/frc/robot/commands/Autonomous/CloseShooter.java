@@ -24,8 +24,8 @@ public class CloseShooter extends SequentialCommandGroup {
   public CloseShooter(Shooter s, Intake i, DriveTrain d) {
     super(new SetIdleMode(d, true), 
           new SetSolenoid(s.shooterSOL, true), 
-          new RevShooter(s, 2500), 
-          new RunShooter(s, i, .42), 
+          new RevShooter(s, 2700), 
+          new RunShooter(s, i, .52), 
           new SetIdleMode(d, true));
   }
 }

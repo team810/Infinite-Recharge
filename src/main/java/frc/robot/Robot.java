@@ -104,6 +104,8 @@ public class Robot extends TimedRobot {
       colorString = "Unknown";
     }
 
+    m_robotContainer.m_limelight.lightOn();
+
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
@@ -168,7 +170,6 @@ if(gameData.length() > 0)
       break;
   }
 }
-    Constants.ledMode.setNumber(0);
 
     //if(Constants.tv.getDouble(0.0) == 0.0){
       //m_robotContainer.m_shoot.shooterSOL.set(Value.kForward);

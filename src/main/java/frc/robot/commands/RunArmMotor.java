@@ -28,13 +28,13 @@ public class RunArmMotor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    c.climber.set(.1);
+    //c.climber.set(.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    c.climber.set(0);
+    //c.climber.set(0);
   }
 
   // Returns true when the command should end.

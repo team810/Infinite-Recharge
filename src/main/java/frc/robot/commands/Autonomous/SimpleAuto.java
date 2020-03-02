@@ -7,8 +7,8 @@
 
 package frc.robot.commands.Autonomous;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -22,10 +22,8 @@ public class SimpleAuto extends SequentialCommandGroup {
    * Creates a new SimpleAuto.
    */
   public SimpleAuto(DriveTrain d, Shooter s, Intake i) {
-    super(new InstantCommand(d::resetEncoder, d),
-          new DriveDistance(d, -10.),
-          new TurnToTarget(d),
-          new Shoot(s, i, 0.7, 0.5, 3700)
-          );
+    super(new TrackTarget(d),
+          new WaitCommand(3),
+          new MidShooter(s, i, d));
   }
 }

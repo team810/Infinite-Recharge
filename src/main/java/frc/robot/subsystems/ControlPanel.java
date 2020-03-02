@@ -49,6 +49,6 @@ public class ControlPanel extends SubsystemBase {
   }
 
   public void init(){
-    control_solenoid.set(Value.kReverse);
+    control_solenoid.set(Value.kForward);
   }
 }

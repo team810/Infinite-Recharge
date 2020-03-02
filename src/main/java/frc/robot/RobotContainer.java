@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CamMode;
 import frc.robot.commands.Drive;
-import frc.robot.commands.RunArmMotor;
 import frc.robot.commands.RunCP;
 import frc.robot.commands.RunFeed;
 import frc.robot.commands.RunIntake;
@@ -37,8 +36,10 @@ import frc.robot.commands.VisionMode;
 import frc.robot.commands.Autonomous.CloseShooter;
 import frc.robot.commands.Autonomous.DriveBack;
 import frc.robot.commands.Autonomous.FarShooter;
+import frc.robot.commands.Autonomous.MidShooter;
 import frc.robot.commands.Autonomous.SimpleAuto;
-import frc.robot.commands.Autonomous.tuning;
+import frc.robot.commands.Autonomous.TrackTarget;
+import frc.robot.commands.Autonomous.track;
 //import frc.robot.commands.Autonomous.TurnToTarget;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
@@ -62,10 +63,9 @@ public class RobotContainer {
   Climber m_climb = new Climber();
   Limelight m_limelight = new Limelight();
 
-  private final Command tuning = new tuning(m_drive, 20);
 
   private final Joystick gamepad = new Joystick(5);
-  public final Joystick gp = new Joystick(5);
+  public final Joystick gp = new Joystick(4);
   public final Joystick left = new Joystick(Constants.LEFT_STICK);
   public final Joystick right = new Joystick(Constants.RIGHT_STICK);
 
@@ -81,7 +81,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new Drive(m_limelight ,m_drive, 
-                                                ()-> left.getRawAxis(1), () -> right.getRawAxis(1)));
+                                                ()-> gp.getRawAxis(1), () -> gp.getRawAxis(3)));
   }
 
   /**
@@ -93,7 +93,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 /** */
     final JoystickButton intake = new JoystickButton(gamepad, Constants.INTAKE_BTN);
-    intake.whileHeld(new RunIntake(m_intake, -.6));
+    intake.whileHeld(new RunIntake(m_intake, -.5));
 
     final JoystickButton intakePrimary = new JoystickButton(right, Constants.INTAKE_BTN);
     intakePrimary.whileHeld(new RunIntake(m_intake, -.6));
@@ -138,16 +138,21 @@ public class RobotContainer {
     final JoystickButton runCP = new JoystickButton(gamepad, 11);
     runCP.whileHeld(new RunCP(m_cp));
   
-    
     final JoystickButton driveBack = new JoystickButton(left, 2);
     driveBack.whileHeld(new DriveBack(m_drive));
 
-    //final JoystickButton winch = new JoystickButton(gamepad, 9);
     //winch.whileHeld(new RunWinch(m_climb));
 
-    final JoystickButton runArm = new JoystickButton(gamepad, 7);
-    runArm.whileHeld(new RunArmMotor(m_climb, .3));
+    //final JoystickButton runArm = new JoystickButton(gamepad, 7);
+    //srunArm.whileHeld(new RunArmMotor(m_climb, .3));
 
+    final JoystickButton auto = new JoystickButton(gp, 10);
+    auto.whileHeld(new TrackTarget(m_drive));
+    //final JoystickButton auto = new JoystickButton(left, 1);
+      //auto.whileHeld(new TrackTarget(m_drive));
+
+    final JoystickButton midShoot = new JoystickButton(gp, 12);
+    midShoot.whileHeld(new MidShooter(m_shoot, m_intake, m_drive));
 
   }
 
@@ -157,7 +162,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    var autoVoltageConstraint =
+    /*var autoVoltageConstraint =
     new DifferentialDriveVoltageConstraint(
       new SimpleMotorFeedforward(Constants.ksVolts,
       Constants.kvVoltSecondsPerMeter,
@@ -180,7 +185,8 @@ public class RobotContainer {
     trajectory, 
     m_drive::getPose, 
     new RamseteController(2.,.7),
-    m_drive.getFeedForward(),
+  
+  m_drive.getFeedForward(),
     m_drive.getKinematics(),
     m_drive::getSpeeds,
     m_drive.getLeftPIDController(), 
@@ -188,7 +194,7 @@ public class RobotContainer {
     m_drive::tankDriveVolts, 
     m_drive);
 
-    return command.andThen(() -> m_drive.tankDriveVolts(0, 0)); 
-    //return m_simpleAuto;
+    //return null; */
+    return m_simpleAuto;
   }
 }
