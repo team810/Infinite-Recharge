@@ -17,7 +17,7 @@ public class Shoot extends CommandBase {
   Intake i;
   double shooterSpeed, feedSpeed, rpm;
 
-  public Shoot(Shooter s, Intake i, double shooterSpeed, double feedSpeed, double rpm) {
+  public Shoot(Shooter s, Intake i double rpm) {
     this.s = s;
     this.i = i;
     this.shooterSpeed = shooterSpeed;
@@ -37,8 +37,8 @@ public class Shoot extends CommandBase {
       s.shooter.set(1);
       i.feeder.set(0);
     }else{
-      s.shooter.set(shooterSpeed);
-      i.feeder.set(feedSpeed);
+      s.shooter.set(0);
+      i.feeder.set(1);
     }
   }
 

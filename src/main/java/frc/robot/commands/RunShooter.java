@@ -19,7 +19,7 @@ public class RunShooter extends CommandBase {
    */
   private Shooter s;
   private Intake i;
-  private double feederSpeed, shooterSpeed;
+  private double shooterSpeed;
   RobotContainer r;
 
   public RunShooter(Shooter s, Intake i, double shooterSpeed) {

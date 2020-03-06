@@ -88,7 +88,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     //pose = odometry.update(getHeading(), getSpeeds(true), getSpeeds(false));
-    SmartDashboard.putNumber("Navx Heading", getNavxAngle());
+    SmartDashboard.putNumber("Navx Heading", navx.getAngle());
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){

@@ -19,7 +19,7 @@ import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   
-  //public CANSparkMax climber = new CANSparkMax(Constants.CLIMB_MOTOR, MotorType.kBrushless);
+  public CANSparkMax climber = new CANSparkMax(Constants.CLIMB_MOTOR, MotorType.kBrushless);
   public Spark winch = new Spark(Constants.WINCH);
   public DoubleSolenoid switch_climb = new DoubleSolenoid(Constants.CLIMB_EXTEND, Constants.CLIMB_RETRACT);
 

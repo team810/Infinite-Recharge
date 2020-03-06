@@ -9,7 +9,6 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -22,7 +21,7 @@ public class SimpleAuto extends SequentialCommandGroup {
    * Creates a new SimpleAuto.
    */
   public SimpleAuto(DriveTrain d, Shooter s, Intake i) {
-    super(new TrackTarget(d),
+    super(new TurnToTarget(d),
           new WaitCommand(3),
           new MidShooter(s, i, d));
   }

@@ -61,7 +61,7 @@ public final class Constants {
     public static final int CONTROL_PANEL_MOTOR = 6;
 
     public static final int WINCH = 0;
-    public static final int CLIMB_MOTOR = 9;
+    public static final int CLIMB_MOTOR = 10;
 
     //DOUBLE SOLENOIDS
     public static final int INTAKE_FORWARD = 4;

@@ -70,8 +70,9 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_drive.back_R.setIdleMode(IdleMode.kCoast);
     m_robotContainer.m_drive.back_L.setIdleMode(IdleMode.kCoast);
 
-    
   }
+
+  
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

@@ -30,7 +30,7 @@ public class DriveBack extends CommandBase {
   @Override
   public void execute() {
     d.arcadeDrive(-.5, 0);
-    if(d.backLEncoder.getPosition() < -0.008304){
+    if(d.backREncoder.getPosition() < -0.008304){
       d.arcadeDrive(0, 0);
     }
   }
@@ -38,6 +38,7 @@ public class DriveBack extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    d.arcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.

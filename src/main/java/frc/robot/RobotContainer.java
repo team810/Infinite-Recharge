@@ -25,21 +25,25 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CamMode;
 import frc.robot.commands.Drive;
+import frc.robot.commands.RunArmMotor;
 import frc.robot.commands.RunCP;
 import frc.robot.commands.RunFeed;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunWinch;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.ToggleDriveMode;
 import frc.robot.commands.ToggleSolenoid;
-import frc.robot.commands.VisionMode;
 import frc.robot.commands.Autonomous.CloseShooter;
+import frc.robot.commands.Autonomous.DistanceAuto;
 import frc.robot.commands.Autonomous.DriveBack;
+import frc.robot.commands.Autonomous.DriveToTarget;
 import frc.robot.commands.Autonomous.FarShooter;
 import frc.robot.commands.Autonomous.MidShooter;
 import frc.robot.commands.Autonomous.SimpleAuto;
-import frc.robot.commands.Autonomous.TrackTarget;
+import frc.robot.commands.Autonomous.TurnToTarget;
 import frc.robot.commands.Autonomous.track;
+import frc.robot.commands.Autonomous.turn;
 //import frc.robot.commands.Autonomous.TurnToTarget;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
@@ -72,6 +76,8 @@ public class RobotContainer {
  // private final Command m_autoCommand = new TurnToTarget(m_drive, m_drive.set);//Robot.getAngleToTarget()
   //private final Command m_autoCommand = getAutonomousCommand();
   private final SimpleAuto m_simpleAuto = new SimpleAuto(m_drive, m_shoot, m_intake);
+  private final DistanceAuto m_distance = new DistanceAuto(m_shoot, m_intake, m_drive);
+  private final turn m_turn = new turn(m_drive);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -81,7 +87,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new Drive(m_limelight ,m_drive, 
-                                                ()-> gp.getRawAxis(1), () -> gp.getRawAxis(3)));
+                                                ()-> left.getRawAxis(1), () -> right.getRawAxis(1)));
   }
 
   /**
@@ -93,16 +99,20 @@ public class RobotContainer {
   private void configureButtonBindings() {
 /** */
     final JoystickButton intake = new JoystickButton(gamepad, Constants.INTAKE_BTN);
-    intake.whileHeld(new RunIntake(m_intake, -.5));
+    intake.whileHeld(new RunIntake(m_intake, -.8));
 
     final JoystickButton intakePrimary = new JoystickButton(right, Constants.INTAKE_BTN);
-    intakePrimary.whileHeld(new RunIntake(m_intake, -.6));
+    intakePrimary.whileHeld(new RunIntake(m_intake, -.8));
+
+
+    final JoystickButton reverse = new JoystickButton(gamepad, 12);
+    reverse.whileHeld(new RunIntake(m_intake, .5));
 
     final JoystickButton feeder = new JoystickButton(gamepad, Constants.FEEDER_BTN);
     feeder.whileHeld(new RunFeed(m_intake, .4));
 
-    final JoystickButton feederReverse = new JoystickButton(gamepad, Constants.FEED_REVERSE_BTN);
-    feederReverse.whileHeld(new RunFeed(m_intake, -.4));
+    final JoystickButton feederReverse = new JoystickButton(gamepad, 14);
+    feederReverse.whileHeld(new Shoot(m_shoot, m_intake, -.4, -.4, -1000));
 
     //final JoystickButton farShoot = new JoystickButton(gamepad, Constants.FAR_SHOOT_BTN);
     //farShoot.whileHeld(new FarShooter(m_shoot, m_intake, m_drive));
@@ -118,9 +128,6 @@ public class RobotContainer {
     final JoystickButton closeShoot = new JoystickButton(gamepad, Constants.CLOSE_SHOOT_BTN);
     closeShoot.whileHeld(new CloseShooter(m_shoot, m_intake, m_drive));
 
-    final JoystickButton armToggle = new JoystickButton(gamepad, Constants.ARMSOL_BTN);
-    armToggle.whenPressed(new ToggleSolenoid(m_climb.switch_climb));
-
     final JoystickButton switchDriveMode = new JoystickButton(gamepad, Constants.DRIVE_MODE_BTN);
     switchDriveMode.whenPressed(new ToggleDriveMode(m_drive));
 
@@ -130,30 +137,26 @@ public class RobotContainer {
     final JoystickButton switchShooter = new JoystickButton(gamepad, Constants.SWITCH_SHOOT);
     switchShooter.whenPressed(new ToggleSolenoid(m_shoot.shooterSOL));
 
-    final JoystickButton visionMode = new JoystickButton(right, 3);
-    visionMode.toggleWhenActive(new VisionMode(m_limelight));
-    final JoystickButton camMode = new JoystickButton(right, 4);
-    camMode.toggleWhenActive(new CamMode(m_limelight));
-
     final JoystickButton runCP = new JoystickButton(gamepad, 11);
     runCP.whileHeld(new RunCP(m_cp));
   
     final JoystickButton driveBack = new JoystickButton(left, 2);
     driveBack.whileHeld(new DriveBack(m_drive));
 
-    //winch.whileHeld(new RunWinch(m_climb));
+    final JoystickButton winch = new JoystickButton(gamepad, 9);
+    winch.whileHeld(new RunWinch(m_climb));
 
-    //final JoystickButton runArm = new JoystickButton(gamepad, 7);
-    //srunArm.whileHeld(new RunArmMotor(m_climb, .3));
+    final JoystickButton runArm = new JoystickButton(gamepad, 7);
+    runArm.whileHeld(new RunArmMotor(m_climb, .3));
 
-    final JoystickButton auto = new JoystickButton(gp, 10);
-    auto.whileHeld(new TrackTarget(m_drive));
-    //final JoystickButton auto = new JoystickButton(left, 1);
-      //auto.whileHeld(new TrackTarget(m_drive));
+    //final JoystickButton auto = new JoystickButton(gp, 10);
+    //auto.whileHeld(new TurnToTarget(m_drive));
+    
+    final JoystickButton auto = new JoystickButton(left, 1);
+    auto.whileHeld(new TurnToTarget(m_drive));
 
     final JoystickButton midShoot = new JoystickButton(gp, 12);
     midShoot.whileHeld(new MidShooter(m_shoot, m_intake, m_drive));
-
   }
 
   /**
@@ -195,6 +198,7 @@ public class RobotContainer {
     m_drive);
 
     //return null; */
-    return m_simpleAuto;
+    //return m_simpleAuto;
+    return m_turn;
   }
 }

@@ -15,16 +15,16 @@ import frc.robot.subsystems.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TrackTarget extends PIDCommand {
+public class TurnToTarget extends PIDCommand {
   /**
    * Creates a new TrackTarget.
    */
   private DriveTrain d;
   
-  public TrackTarget(DriveTrain d) {
+  public TurnToTarget(DriveTrain d) {
     super(
         // The controller that the command will use
-        new PIDController(.1, 0.05, 0),
+        new PIDController(.1, 0, 0.01),
         // This should return the measurement
         () -> Constants.tx.getDouble(0.0),
         // This should return the setpoint (can also be a constant)

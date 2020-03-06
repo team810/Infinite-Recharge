@@ -37,11 +37,11 @@ public class track extends CommandBase {
   @Override
   public void execute() {
     double heading_error = -tx;
-    if (tx > 1.0)
+    if (tx > 0.0)
     {
       d.arcadeDrive(0, .4);
     }
-    else if (tx < 1.0)
+    else if (tx < 0.0)
     {
       d.arcadeDrive(0, -.4);
     }
